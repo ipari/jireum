@@ -82,8 +82,9 @@ def get_ruliweb_deals(name, url):
         return []
 
     # 테이블에서 공지사항을 제거한다.
-    for tr in soup.findAll('tr', {'class': 'notice'}):
-        tr.decompose()
+    for tr in soup.findAll('tr', {'class': 'table_body'}):
+        if 'inside' in tr['class']:
+            tr.decompose()
 
     deals = []
     last_article_id = last_article_ids.get(name)
