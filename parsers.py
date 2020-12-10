@@ -63,6 +63,7 @@ def get_clien_deals(name, url):
         rel_link = link.get('href')
         article_id = int(rel_link.split('/')[-1].split('?')[0])
         title = link.text
+        title = title.replace('\n', '').replace('\t', '')
 
         if article_id <= last_article_id:
             break
