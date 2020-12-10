@@ -6,6 +6,7 @@ from urllib.parse import parse_qsl
 
 
 SAVE_PATH = 'jireum.json'
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.57'}
 
 
 class LastArticleIDs(object):
@@ -33,7 +34,7 @@ last_article_ids = LastArticleIDs(SAVE_PATH)
 
 
 def get_soup(url):
-    response = requests.get(url)
+    response = requests.get(url, headers=HEADERS)
     if response.status_code != 200:
         print(f'[Error] Failed to request: {url}')
         return
