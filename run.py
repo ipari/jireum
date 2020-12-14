@@ -1,6 +1,7 @@
 import json
 import requests
 import time
+import traceback
 
 from parsers import get_clien_deals, get_ppomppu_deals, get_ruliweb_deals
 
@@ -43,12 +44,23 @@ def crawl_all():
         for webhook_url in webhook_urls:
             for deal in deals:
                 text = f"{deal['title']}\n{deal['url']}"
+                send_webhook(webhook_url, text)
 
-                requests.post(
-                    webhook_url,
-                    data=json.dumps({'text': text}),
-                    headers={'Content-Type': 'application/json'}
-                )
+
+def send_webhook(url, text, channel=None):
+    data = {'text': text}
+    if channel:
+        data['channel'] = channel
+
+    try:
+        requests.post(
+            url,
+            data=json.dumps(data),
+            headers={'Content-Type': 'application/json'}
+        )
+    except Exception:
+        tb = traceback.format_exc()
+        print(tb)
 
 
 if __name__ == '__main__':
@@ -58,3 +70,4 @@ if __name__ == '__main__':
             time.sleep(60)
     except KeyboardInterrupt:
         print('Goodbye!')
+
